@@ -46,3 +46,12 @@ $(BIN_DIR)/client_dynamic: $(OBJ_DIR)/main.o $(DYNAMIC_LIB)
 
 clean:
 	rm -rf $(OBJ_DIR)/*.o $(LIB_DIR)/* $(BIN_DIR)/*
+
+PREFIX = /usr/local
+
+install: $(BIN_DIR)/client_static
+	install -d $(DESTDIR)$(PREFIX)/bin
+	install -m 755 $(BIN_DIR)/client_static $(DESTDIR)$(PREFIX)/bin/client
+	install -d $(DESTDIR)$(PREFIX)/share/man/man3
+	install -m 644 man/man3/* $(DESTDIR)$(PREFIX)/share/man/man3/
+	mandb
