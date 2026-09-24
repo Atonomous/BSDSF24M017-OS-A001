@@ -4,31 +4,60 @@
 #include "../include/myfilefunctions.h"
 
 int main() {
-    printf("--- Testing String Functions ---\n");
-    char buf[100];
-    mystrcpy(buf, "Hello");
-    printf("mystrlen: %d\n", mystrlen(buf));
-    mystrcat(buf, " World!");
-    printf("mystrcat: %s\n", buf);
+    printf("========================================\n");
+    printf("       TESTING STRING FUNCTIONS\n");
+    printf("========================================\n");
 
-    printf("\n--- Testing File Functions ---\n");
-    FILE* f = fopen("test.txt", "w+");
-    if (f) {
-        fputs("Line 1: Hello World\nLine 2: Operating Systems\nLine 3: Hello Linux\n", f);
-        int l, w, c;
-        wordCount(f, &l, &w, &c);
-        printf("Lines: %d, Words: %d, Chars: %d\n", l, w, c);
+    char str1[100];
+    char str2[50] = "Operating Systems";
+    
+    // 1. mystrcpy
+    mystrcpy(str1, "Hello");
+    printf("[mystrcpy] Copied: '%s'\n", str1);
 
-        char** matches = NULL;
-        int count = mygrep(f, "Hello", &matches);
-        printf("Matches found for 'Hello': %d\n", count);
-        for (int i = 0; i < count; i++) {
-            printf("  [%d]: %s", i + 1, matches[i]);
-            free(matches[i]);
-        }
-        free(matches);
-        fclose(f);
-        remove("test.txt");
+    // 2. mystrlen
+    printf("[mystrlen] Length of '%s': %d\n", str1, mystrlen(str1));
+
+    // 3. mystrcat
+    mystrcat(str1, " World!");
+    printf("[mystrcat] Concatenated: '%s'\n", str1);
+
+    // 4. mystrncpy
+    char str3[20];
+    mystrncpy(str3, str2, 9);
+    printf("[mystrncpy] Copied 9 chars: '%s'\n", str3);
+
+    printf("\n========================================\n");
+    printf("        TESTING FILE FUNCTIONS\n");
+    printf("========================================\n");
+
+    FILE* fp = fopen("testfile.txt", "w+");
+    if (!fp) {
+        perror("Failed to create test file");
+        return 1;
     }
+
+    fputs("Operating Systems Assignment 01\nLearning multi-file builds and linking\nOperating Systems is fun\n", fp);
+
+    // 5. wordCount
+    int lines = 0, words = 0, chars = 0;
+    if (wordCount(fp, &lines, &words, &chars) == 0) {
+        printf("[wordCount] Lines: %d | Words: %d | Characters: %d\n", lines, words, chars);
+    }
+
+    // 6. mygrep
+    char** matches = NULL;
+    int count = mygrep(fp, "Operating", &matches);
+    printf("[mygrep] Pattern 'Operating' found in %d line(s):\n", count);
+    for (int i = 0; i < count; i++) {
+        printf("   Match %d: %s", i + 1, matches[i]);
+        free(matches[i]);
+    }
+    free(matches);
+
+    fclose(fp);
+    remove("testfile.txt");
+
+    printf("\nAll functions tested successfully.\n");
     return 0;
 }
