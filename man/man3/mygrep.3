@@ -1,0 +1,11 @@
+.TH MYGREP 3 "September 2026" "Version 1.0" "Library Functions Manual"
+.SH NAME
+mygrep \- search lines matching a pattern in a file
+.SH SYNOPSIS
+.B #include "myfilefunctions.h"
+.PP
+.BI "int mygrep(FILE *" fp ", const char *" search_str ", char ***" matches );
+.SH DESCRIPTION
+The \fBmygrep\fR() function searches for \fIsearch_str\fR in file stream \fIfp\fR and populates the \fImatches\fR array.
+.SH AUTHOR
+Mazhar Shahzad
